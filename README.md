@@ -1,10 +1,9 @@
-</body>
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎉 Feliz Cumpleaños Sariii 🎂</title>
+<title>🎂 Feliz Cumpleaños Sariii 🎉</title>
 
 <style>
 *{
@@ -14,25 +13,52 @@
 }
 
 body{
-    font-family:Arial, sans-serif;
-    height:100vh;
-    overflow:hidden;
+    font-family:Arial,sans-serif;
     background:linear-gradient(135deg,#ff7eb3,#ff758c,#ffb199);
+    height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
+    overflow:hidden;
+}
+
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:1;
+    pointer-events:none;
+}
+
+#inicio,
+#sorpresa{
+    position:relative;
+    z-index:10;
+    text-align:center;
 }
 
 #sorpresa{
     display:none;
     background:white;
-    padding:40px;
+    padding:35px;
     border-radius:25px;
-    max-width:550px;
-    text-align:center;
-    box-shadow:0 15px 40px rgba(0,0,0,.25);
-    animation:aparecer .8s ease;
-    z-index:10;
+    width:90%;
+    max-width:500px;
+    box-shadow:0 15px 35px rgba(0,0,0,.25);
+    animation:zoom .7s ease;
+}
+
+button{
+    border:none;
+    padding:18px 35px;
+    border-radius:50px;
+    background:#ff4081;
+    color:white;
+    font-size:1.2rem;
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(0,0,0,.2);
 }
 
 h1{
@@ -42,32 +68,11 @@ h1{
 
 p{
     color:#555;
-    font-size:1.2rem;
-    line-height:1.6;
+    line-height:1.7;
+    font-size:1.1rem;
 }
 
-#inicio{
-    text-align:center;
-    z-index:10;
-}
-
-button{
-    background:#ff4081;
-    color:white;
-    border:none;
-    padding:18px 35px;
-    font-size:1.2rem;
-    border-radius:50px;
-    cursor:pointer;
-    transition:.3s;
-    box-shadow:0 5px 15px rgba(0,0,0,.2);
-}
-
-button:hover{
-    transform:scale(1.08);
-}
-
-@keyframes aparecer{
+@keyframes zoom{
     from{
         opacity:0;
         transform:scale(.7);
@@ -77,16 +82,9 @@ button:hover{
         transform:scale(1);
     }
 }
-
-canvas{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-}
 </style>
 </head>
+
 <body>
 
 <canvas id="confetti"></canvas>
@@ -122,46 +120,46 @@ function mostrarSorpresa(){
 const canvas = document.getElementById("confetti");
 const ctx = canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
 
-const pieces = [];
+resize();
 
-for(let i=0;i<200;i++){
-    pieces.push({
-        x: Math.random()*canvas.width,
-        y: Math.random()*canvas.height,
-        w: Math.random()*10+5,
-        h: Math.random()*10+5,
-        speed: Math.random()*3+2,
+const confetti = [];
+
+for(let i=0;i<150;i++){
+    confetti.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        size:Math.random()*8+4,
+        speed:Math.random()*3+1,
         color:`hsl(${Math.random()*360},100%,60%)`
     });
 }
 
-function animate(){
+function draw(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    pieces.forEach(p=>{
-        ctx.fillStyle=p.color;
-        ctx.fillRect(p.x,p.y,p.w,p.h);
+    confetti.forEach(c=>{
+        ctx.fillStyle=c.color;
+        ctx.fillRect(c.x,c.y,c.size,c.size);
 
-        p.y += p.speed;
+        c.y += c.speed;
 
-        if(p.y > canvas.height){
-            p.y = -10;
-            p.x = Math.random()*canvas.width;
+        if(c.y > canvas.height){
+            c.y = -10;
+            c.x = Math.random()*canvas.width;
         }
     });
 
-    requestAnimationFrame(animate);
+    requestAnimationFrame(draw);
 }
 
-animate();
+draw();
 
-window.addEventListener("resize",()=>{
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-});
+window.addEventListener("resize", resize);
 </script>
 
 </body>

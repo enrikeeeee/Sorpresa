@@ -32,13 +32,6 @@ canvas{
     pointer-events:none;
 }
 
-#inicio,
-#sorpresa{
-    position:relative;
-    z-index:10;
-    text-align:center;
-}
-
 #sorpresa{
     display:none;
     background:white;
